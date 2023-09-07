@@ -22,11 +22,11 @@ public function run()
         'email' => 'admin@admin.com',
         'mobile_no' => '1122002942',
         'mobile_verified_at' => Carbon::now(),
-        'roles_name' => ["admin"],
+        'roles_name' => ["مدير"],
         ]);
 
-        $role = Role::create(['name' => 'admin']);
-        $role2 = Role::create(['name' => 'user']);
+        $role = Role::create(['name' => 'مدير']);
+        $role2 = Role::create(['name' => 'مستخدم']);
         $permissions = Permission::pluck('id','id')->all();
 
         $role->syncPermissions($permissions);

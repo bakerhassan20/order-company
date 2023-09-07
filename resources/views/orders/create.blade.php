@@ -67,9 +67,9 @@
                                 required
                                 aria-label=".form-select-lg example">
                                 <option value="">اختر نوع الخدمه</option>
-                                <option value="programming">برمجة نظام</option>
-                                <option value="development">تطوير نظام</option>
-                                <option value="technical">دعم فني</option>
+                                <option value="برمجة نظام">برمجة نظام</option>
+                                <option value="تطوير نظام">تطوير نظام</option>
+                                <option value="دعم فني">دعم فني</option>
                             </x-base.form-select>
                              @error('service_type')
                                     <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
                                     </span>
                                 @enderror
                         </div>
-       
+
                     <div class="input-form mt-3">
                                 <x-base.form-label
                                     class="flex w-full flex-col xl:flex-row"

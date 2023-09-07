@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('photo')->nullable();
             $table->integer('active')->default(1);
-            $table->enum('type' , ['individual' , 'company','institution','none'])->default('none');
+            $table->enum('type' , ['شركة' , 'مؤسسة','فرد','none'])->default('none');
             $table->text('roles_name');
             $table->softDeletes();
             $table->rememberToken();

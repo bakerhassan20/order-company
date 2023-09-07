@@ -74,11 +74,63 @@ table{
                     </label>
                     <x-base.form-select
                         class="mt-2 w-full sm:mt-0 sm:w-auto 2xl:w-full"
-                        id="tabulator-html-filter-field" name="field"
-                    >
-                        <option value="service_type">service_type</option>
-                        <option value="category">Category</option>
-                        <option value="remaining_stock">Remaining Stock</option>
+                        id="tabulator-html-filter-field" name="field">
+
+                        @can('الاسم')
+                        <option value="user_name">الاسم</option>
+                         @endcan
+
+                        @can('نوع مقدم الطلب')
+                        <option value="type"> نوع مقدم الطلب</option>
+                         @endcan
+
+                        @can('البريد')
+                        <option value="email">البريد</option>
+                        @endcan
+
+                        @can('رقم الهاتف')
+                        <option value="mobile_no">رقم الهاتف</option>
+                         @endcan
+
+                        @can('نوع الخدمة')
+                        <option value="service_type">نوع الخدمة</option>
+                          @endcan
+                        @can('تاريخ تقديم الطلب')
+                        <option value="created_at">تاريخ تقديم الطلب</option>
+                           @endcan
+                         @can('تاريخ بدء الخدمة')
+                        <option value="service_start_date">تاريخ بدء الخدمة</option>
+                        @endcan
+
+                        @can('تاريخ انتهاء الخدمة')
+                        <option value="service_end_date"> تاريخ انتهاء الخدمة</option>
+                         @endcan
+
+                        @can('حالة الخدمة')
+                        <option value="service_status">حالة الخدمة</option>
+                        @endcan
+
+
+                        @can('حالة الخدمة')
+                        <option value="invoice_status">حالة الفاتورة</option>
+                        @endcan
+
+                        @can('مستلم الطلب')
+                        <option value="recipient">مستلم طلب</option>
+                        @endcan
+
+                        @can('مدة الخدمة')
+                        <option value="duration">مدة الخدمة</option>
+                        @endcan
+
+                        @can('سعر الخدمة')
+                        <option value="total_price">سعر الخدمة</option>
+                        @endcan
+
+                        @can('المبلغ المقدم للمستلم')
+                        <option value="recipient_price">المبلغ المقدم للمستلم</option>
+
+
                     </x-base.form-select>
                 </div>
                 <div class="mt-2 items-center sm:mr-4 sm:flex xl:mt-0">
@@ -178,7 +230,7 @@ table{
                                         تاريخ تقديم الطلب
                                         </x-base.table.th>
                                         @endcan
-                                        @can('تاريخ بدأ الخدمة')
+                                        @can('تاريخ بدء الخدمة')
                                         <x-base.table.th class="whitespace-nowrap">
                                        تاريخ بدأ الخدمة
                                         </x-base.table.th>
@@ -218,16 +270,6 @@ table{
                                         المبلغ المقدم للمستلم
                                         </x-base.table.th>
                                         @endcan
-                                        @can('وجود استفسار من المستلم')
-                                         <x-base.table.th class="whitespace-nowrap">
-                                        وجود استفسار من المستلم
-                                        </x-base.table.th>
-                                        @endcan
-                                        @can('وجود اقتراح مبلغ من المستلم')
-                                        <x-base.table.th class="whitespace-nowrap">
-                                        وجود اقتراح مبلغ من المستلم
-                                        </x-base.table.th>
-                                        @endcan
                                         <x-base.table.th class="whitespace-nowrap">
                                           الإجراءات
                                         </x-base.table.th>
@@ -247,14 +289,7 @@ table{
 
                 @can('نوع مقدم الطلب')
                 <x-base.table.td>
-                @if( $order->user->type == "institution")
-               مؤسسة
-                @elseif ( $order->user->type == "company")
-              شركة
-                @elseif ( $order->user->type == "individual")
-                فرد
-
-                @endif
+               {{ $order->user->type}}
                 </x-base.table.td>
                  @endcan
 
@@ -267,14 +302,19 @@ table{
                 @endcan
 
                  @can('نوع الخدمة')
-                <x-base.table.td>{{ $order->service_type }}</x-base.table.td>
+                <x-base.table.td>
+
+                {{$order->service_type}}
+                </x-base.table.td>
                 @endcan
+
+
 
                 @can('تاريخ تقديم الطلب')
                 <x-base.table.td>{{ $order->created_at->format('d-m-Y h:i') }}</x-base.table.td>
                  @endcan
 
-                @can('تاريخ بدأ الخدمة')
+                @can('تاريخ بدء الخدمة')
                 <x-base.table.td>{{ $order->service_start_date }}</x-base.table.td>
                   @endcan
 
@@ -284,33 +324,13 @@ table{
 
                 @can('حالة الخدمة')
                 <x-base.table.td>
-                @if( $order->service_status == "new")
-                 طلب جديد
-                @elseif ( $order->service_status == "underway")
-                قيد التنفيذ
-                @elseif ( $order->service_status == "finished")
-                منتهية
-                @elseif ( $order->service_status == "active")
-                نشط
-                @elseif ( $order->service_status == "canceled")
-                ملغي
-                @endif
+               {{ $order->service_status }}
                 </x-base.table.td>
                 @endcan
 
                 @can('فاتورة الخدمة')
                 <x-base.table.td>
-                @if( $order->invoice_status == "paid")
-               مدفوعه
-                @elseif ( $order->invoice_status == "unpaid")
-               غير مدفوعه
-                @elseif ( $order->invoice_status == "canceled")
-                ملغية
-                @elseif ( $order->invoice_status == "finished")
-               منتهية
-                @elseif ( $order->invoice_status == "pending")
-               قيد الدفع
-                @endif
+                {{ $order->invoice_status}}
                 </x-base.table.td>
                 @endcan
 
@@ -337,25 +357,6 @@ table{
                 <x-base.table.td>{{ $order->recipient_price }}</x-base.table.td>
                 @endcan
 
-                @can('وجود استفسار من المستلم')
-                <x-base.table.td>
-                @if($order->inquiry  == 0)
-                   لا
-                   @else
-                   نعم
-                   @endif
-                </x-base.table.td>
-                @endcan
-
-                @can('وجود اقتراح مبلغ من المستلم')
-                <x-base.table.td>
-                   @if($order->suggest_amount  == 0)
-                   لا
-                   @else
-                   نعم
-                   @endif
-                </x-base.table.td>
-                @endcan
 
 
 <x-base.table.td>
@@ -416,7 +417,7 @@ table{
      data-tw-target="#order_recipient_price"
             href="#" as="a" variant="primary"
             data-order_recipientprice="{{ $order->recipient_price }}"
-            data-order_price="{{ $order->price }}" data-orderid="{{ $order->id }}"
+            data-order_price="{{ $order->total_price }}" data-orderid="{{ $order->id }}"
             class="order_recipient_price mt-5">تعديل المبلغ المقدم للمستلم</x-base.button>
 
 
@@ -427,22 +428,24 @@ table{
             class="recipient_order mt-5">استلام الطلب</x-base.button>
 
 
-
-      <x-base.button class="px-4 py-3 align-center mt-5 h-2" variant="primary" type="submit" name="submit">
-        <a class="btn btn-success btn-sm" href="">نشر الطلب للمستلمين</a>
-    </x-base.button>
-
-
-       <x-base.button class="px-4 py-3 align-center mt-5 h-2" variant="primary" type="submit" name="submit">
-        <a class="btn btn-success btn-sm" href="">الاطلاع على المعلومات الإضافية</a>
-    </x-base.button>
-
-         <x-base.button class="px-4 py-3 align-center mt-5 h-2" variant="primary" type="submit" name="submit">
-        <a class="btn btn-success btn-sm" href="">مراسلة مستلم الطلب</a>
-    </x-base.button>
+      <x-base.button  data-tw-toggle="modal"
+     data-tw-target="#View_additional_information"
+            href="#" as="a" variant="primary"
+            data-orderid="{{ $order->id }}"
+            data-orderprice="{{ $order->total_price }}"
+            data-servicedescription="{{ $order->service_description }}"
+            data-servicestatus="{{ $order->service_status }}"
+            data-userid="{{  App\Models\User::find($order->user_id)->name}}"
+            class="View_additional_information mt-5">الاطلاع على المعلومات الإضافية </x-base.button>
 
 
 
+          <x-base.button href="{{ route('publish') }}" as="a" data-tw-toggle="modal"
+                                    onclick="event.preventDefault();document.getElementById('publish-form').submit();" class="mt-5">نشر للمستلمين</x-base.button>
+        <form id="publish-form" action="{{ route('publish') }}" method="POST" style="display: none;">
+        @csrf
+         <input id="publishorderid" type="hidden"  value=" {{ $order->id }}" name="order_id" required />
+        </form>
 
 
             </x-base.popover.panel>
@@ -494,9 +497,9 @@ table{
                                         <x-base.form-label for="modal-form-1">اختر نوع الخدمه</x-base.form-label>
 
                                         <x-base.form-select name="service_type" required id="service_type">
-                                        <option value="programming">برمجة نظام</option>
-                                        <option value="development">تطوير نظام</option>
-                                        <option value="technical">دعم فني</option>
+                                        <option value="برمجة نظام">برمجة نظام</option>
+                                        <option value="تطوير نظام">تطوير نظام</option>
+                                        <option value="دعم فني">دعم فني</option>
                                         </x-base.form-select>
                                     </div>
                                 </x-base.dialog.description>
@@ -540,11 +543,11 @@ table{
                                         <x-base.form-label for="modal-form-1">اختر حاله الخدمه</x-base.form-label>
 
                                         <x-base.form-select name="service_status" required id="service_status">
-                                        <option value="new">طلب جديد</option>
-                                        <option value="underway"> قيد التنفيذ</option>
-                                        <option value="finished">منتهية</option>
-                                        <option value="active">نشط</option>
-                                        <option value="canceled">ملغي</option>
+                                        <option value="طلب جديد">طلب جديد</option>
+                                        <option value="قيد التنفيذ"> قيد التنفيذ</option>
+                                        <option value="منتهية">منتهية</option>
+                                        <option value="نشط">نشط</option>
+                                        <option value="ملغي">ملغي</option>
                                         </x-base.form-select>
                                     </div>
                                 </x-base.dialog.description>
@@ -590,11 +593,11 @@ table{
 
                                         <x-base.form-select name="invoice_status" required id="invoice_status">
 
-                                        <option value="paid">مدفوعه</option>
-                                        <option value="unpaid">غير مدفوعه</option>
-                                        <option value="canceled">منتهية</option>
-                                        <option value="finished">ملغية</option>
-                                        <option value="pending">قيد الدفع</option>
+                                        <option value="مدفوعه">مدفوعه</option>
+                                        <option value="غير مدفوعه">غير مدفوعه</option>
+                                        <option value="منتهية">منتهية</option>
+                                        <option value="ملغية">ملغية</option>
+                                        <option value="قيد الدفع">قيد الدفع</option>
                                         </x-base.form-select>
                                     </div>
                                 </x-base.dialog.description>
@@ -817,6 +820,100 @@ table{
             <!-- END: Delete Modal -->
 
 
+
+
+
+
+
+
+                               <!-- See_service_description -->
+                        <x-base.dialog id="View_additional_information">
+                            <x-base.dialog.panel  style="width: 660px;height:500px;">
+                                <x-base.dialog.title>
+                                    <h2 class="mr-auto text-base font-medium">
+                       المعلومات الاضافيه
+                                    </h2>
+                                </x-base.dialog.title>
+                                <x-base.dialog.description class="grid grid-cols-12 gap-4 gap-y-3">
+                               <!-- BEGIN: Horizontal Form -->
+            <x-base.preview-component class="intro-y box mt-5" style="width:600px;">
+                <div class="p-5">
+                  {!! Form::open(array('route' => 'View_additional_information','method'=>'POST')) !!}
+                    <x-base.preview>
+                        <x-base.form-inline>
+                          <input id="show_orderid" type="hidden"  value="" name="order_id" required />
+                            <x-base.form-label
+                                class="sm:w-20"
+                                for="horizontal-form-1"
+                            >
+                              مقدم الخدمة
+                            </x-base.form-label>
+                            <x-base.form-input
+                            class="disable"
+                                id="show_user_id"
+                                type="text"
+                            />
+                        </x-base.form-inline>
+                            <x-base.form-inline class='mt-5'>
+
+                             <x-base.form-label
+                                class="sm:w-20"
+                                for="horizontal-form-2">
+
+                                نوع الخدمه
+                            </x-base.form-label>
+                            <x-base.form-input
+                                id="show_service_status"
+                                type="text"
+                                 class="disable"
+                                placeholder="سعر"
+                            />
+                        </x-base.form-inline>
+                        <x-base.form-inline class="mt-5">
+                            <x-base.form-label
+                                class="sm:w-20"
+                                for="horizontal-form-2"
+                            >
+                                سعر الخدمه
+                            </x-base.form-label>
+                            <x-base.form-input
+                                id="show_order_price"
+                                type="number"
+                                placeholder="سعر"
+                                name="price"
+                            />
+                            </x-base.form-inline >
+
+                              <x-base.form-label
+                                class="sm:w-20 mt-5"
+                                for="horizontal-form-2"
+                            >
+                              وصف الخدمه
+                            </x-base.form-label>
+                         <p   id="show_service_description"></p>
+                               <x-base.button
+                                        class="w-24 mt-10"
+                                        type="submit"
+                                        variant="primary"
+                                    >
+                                        اضافه مبلغ
+                                    </x-base.button>
+                    </x-base.preview>
+                      {!! Form::close() !!}
+                </div>
+
+            </x-base.preview-component>
+            <!-- END: Horizontal Form -->
+
+                                </x-base.dialog.description>
+
+                            </x-base.dialog.panel>
+                        </x-base.dialog>
+                        <!-- END: Modal Content -->
+
+
+
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
 
@@ -858,7 +955,7 @@ $(".Edit_invoice_status").click(function() {
 /////////////////////////////////
 
 $(".See_service_description").click(function() {
-    var servicedescription = $(this).data('servicedescription');;
+    var servicedescription = $(this).data('servicedescription');
     $("#service_description").val(servicedescription);
 
 });
@@ -895,6 +992,26 @@ $(".recipient_order").click(function() {
 
 
 });
+
+
+$(".View_additional_information").click(function() {
+
+    var orderid = $(this).data('orderid');
+    var orderprice = $(this).data('orderprice');
+    var servicedescription = $(this).data('servicedescription');
+    var servicestatus = $(this).data('servicestatus');
+    var userid = $(this).data('userid');
+
+
+    $('#show_orderid').val(orderid);
+    $("#show_order_price").val(orderprice);
+    $("#show_service_description").text(servicedescription);
+    $('#show_service_status').val(servicestatus);
+    $("#show_user_id").val(userid);
+
+
+});
+
 </script>
 @endsection
 

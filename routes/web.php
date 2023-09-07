@@ -148,4 +148,8 @@ Route::group(['middleware' => ['auth','verified-mobile']], function() {
 
     Route::post('/recipient_order', [App\Http\Controllers\OrderController::class,'recipient_order'])->name('recipient_order');
 
+    Route::post('/View_additional_information', [App\Http\Controllers\OrderController::class,'View_additional_information'])->name('View_additional_information');
+
+    Route::post('/publish', [App\Http\Controllers\OrderController::class,'publish'])->name('publish');
+
     });

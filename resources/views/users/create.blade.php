@@ -110,9 +110,9 @@
                                 aria-label=".form-select-lg example"
                             >
                                    <option value="">choose type</option>
-                                    <option value="institution">مؤسسة</option>
-                                    <option value="company">شركة</option>
-                                    <option value="individual">فرد</option>
+                                    <option value="مؤسسة">مؤسسة</option>
+                                    <option value="شركة">شركة</option>
+                                    <option value="فرد">فرد</option>
                             </x-base.form-select>
                              @error('type')
                                     <span class="invalid-feedback" role="alert">
@@ -141,7 +141,7 @@
 
 $('#target').on('change', function (e) {
     var valueSelected = this.value;
-    if(valueSelected == "user")
+    if(valueSelected == "مستخدم")
     {
     $('.typeC').css('display', 'inline-block');
     $(".typeC").attr("required", true);

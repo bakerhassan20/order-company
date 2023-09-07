@@ -19,7 +19,7 @@ table{
      border: 1px solid #ddd;
 }
 
-    
+
 </style>
 @endsection
 
@@ -161,7 +161,7 @@ table{
                             <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
                         </a>
                         @endcan
-                        @if ($role->name !== 'admin' && $role->name !== 'user')
+                        @if ($role->name !== 'مدير' && $role->name !== 'مستخدم')
                         @can('حذف صلاحية')
                         <a class="flex  delete text-danger" href="{{ route('roles.destroy',
                                                 $role->id) }}"

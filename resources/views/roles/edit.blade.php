@@ -47,7 +47,7 @@
                        <div style="padding:30px;">
                   <div class="">
                             <x-base.form-label for="regular-form-2"> اسم الصلاحيه</x-base.form-label>
-                            @if ($role->name == 'admin' || $role->name == 'user')
+                            @if ($role->name == 'مدير' || $role->name == 'مستخدم')
                               <x-base.form-input
                                 id="regular-form-2"
                                 type="text"

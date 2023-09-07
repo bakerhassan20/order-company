@@ -14,18 +14,24 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('service_type',['programming','development','technical']);  // نوع الخدمه
+            $table->enum('service_type',['برمجة نظام','تطوير نظام','دعم فني']);  // نوع الخدمه
             $table->longText('service_description'); // وصف الخدمه
             $table->date('service_start_date')->nullable(); // تاريخ بدأ الخدمة
             $table->date('service_end_date')->nullable(); // تاريخ انتهاء الخدمة
-            $table->enum('service_status',['new','underway','finished','active','canceled']); // حالة الخدمة
-            $table->enum('invoice_status',['paid','unpaid','canceled','finished','pending']); //حالة الفاتورة
+            $table->enum('service_status',['طلب جديد','قيد التنفيذ','منتهية','نشط','ملغي']); // حالة الخدمة
+            $table->enum('invoice_status',['مدفوعه','غير مدفوعه','منتهية','ملغية','قيد الدفع']); //حالة الفاتورة
             $table->bigInteger('recipient')->nullable(); // مستلم الطلب
             $table->string('duration')->nullable(); //مدة الخدمة
             $table->integer('total_price')->nullable(); // سعر الخدمة
             $table->integer('recipient_price')->nullable(); // سعر الخدمة
-            $table->integer('inquiry')->default(0); //  استفسار
-            $table->integer('suggest_amount')->default(0); // وجود اقتراح مبلغ من المستلم
+            $table->integer('publish')->default(0); //  نشر
+
+            $table->string('user_name');
+            $table->string('user_email');
+            $table->string('user_mobile_no');
+            $table->string('recipient_name')->nullable();
+            $table->string('user_type')->nullable();
+
             $table->timestamps();
         });
     }
