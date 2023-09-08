@@ -14,11 +14,12 @@ class TopMenu
             'الاعدادات' => [
                 'icon' => 'Settings',
                 'title' => 'الاعدادات',
+                'can'=>'الاعدادات',
                 'sub_menu' => [
                     'users' => [
                         'icon' => 'Users',
                         'route_name' => 'users.index',
-                        'can'=>'قائمة المستخدمين',
+                        'can'=>'المستخدمين',
                         'params' => [
                             'layout' => 'top-menu',
                         ],
@@ -27,11 +28,11 @@ class TopMenu
                     'roles' => [
                         'icon' => 'EyeOff',
                         'route_name' => 'roles.index',
-                        'can'=>'صلاحيات المستخدمين',
+                        'can'=>'الصلاحيات',
                         'params' => [
                             'layout' => 'top-menu',
                         ],
-                        'title' => 'الصلحيات'
+                        'title' => 'الصلاحيات'
                     ],
 
                 ]
@@ -40,6 +41,7 @@ class TopMenu
 
             'الطلبات' => [
                 'icon' => 'ShoppingCart',
+                'can'=>'الطلبات',
                 'title' => 'الطلبات',
                 'sub_menu' => [
                     'orders' => [
@@ -54,6 +56,7 @@ class TopMenu
                     'create' => [
                         'icon' => 'Edit3',
                         'route_name' => 'orders.create',
+
                         'can'=>'اضافة طلب',
                         'params' => [
                             'layout' => 'top-menu',
@@ -66,10 +69,12 @@ class TopMenu
 
             'menu-layout' => [
                 'icon' => 'box',
+                'can'=>'menu',
                 'title' => 'Menu Layout',
                 'sub_menu' => [
                     'side-menu' => [
                         'icon' => 'activity',
+                        'can'=>'',
                         'route_name' => 'dashboard-overview-1',
                         'params' => [
                             'layout' => 'side-menu'
@@ -78,6 +83,7 @@ class TopMenu
                     ],
                    /*  'simple-menu' => [
                         'icon' => 'activity',
+                        'can'=>'',
                         'route_name' => 'dashboard-overview-1',
                         'params' => [
                             'layout' => 'simple-menu'
@@ -86,6 +92,7 @@ class TopMenu
                     ], */
                     'top-menu' => [
                         'icon' => 'activity',
+                        'can'=>'',
                         'route_name' => 'dashboard-overview-1',
                         'params' => [
                             'layout' => 'top-menu'

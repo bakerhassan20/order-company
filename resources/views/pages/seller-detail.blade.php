@@ -109,6 +109,8 @@
                     </x-base.button>
                 </div>
             </div>
+
+            
             <div class="box mt-5 rounded-md p-5">
                 <div class="mb-5 flex items-center border-b border-slate-200/60 pb-5 dark:border-darkmode-400">
                     <div class="truncate text-base font-medium">

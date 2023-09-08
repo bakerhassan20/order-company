@@ -109,9 +109,9 @@
 
                                     <select dir="rtl" style="float: right;" id="type"  class="form-control" name="type" required autocomplete="type">
                                         <option value="">choose type</option>
-                                        <option value="institution">مؤسسة</option>
-                                        <option value="company">شركة</option>
-                                        <option value="individual">فرد</option>
+                                        <option value="مؤسسة">مؤسسة</option>
+                                        <option value="شركة">شركة</option>
+                                        <option value="فرد">فرد</option>
                                     </select>
 
 

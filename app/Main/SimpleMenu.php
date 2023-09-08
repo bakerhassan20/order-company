@@ -20,7 +20,7 @@ class SimpleMenu
                     'users' => [
                         'icon' => 'Users',
                         'route_name' => 'users.index',
-                        'can'=>'قائمة المستخدمين',
+                        'can'=>'المستخدمين',
                         'params' => [
                             'layout' => 'simple-menu',
                         ],
@@ -29,11 +29,11 @@ class SimpleMenu
                     'roles' => [
                         'icon' => 'EyeOff',
                         'route_name' => 'roles.index',
-                        'can'=>'صلاحيات المستخدمين',
+                        'can'=>'الصلاحيات',
                         'params' => [
                             'layout' => 'simple-menu',
                         ],
-                        'title' => 'الصلحيات'
+                        'title' => 'الصلاحيات'
                     ],
 
                 ]
@@ -42,6 +42,7 @@ class SimpleMenu
             'الطلبات' => [
                 'icon' => 'ShoppingCart',
                 'title' => 'الطلبات',
+                'can'=>'الطلبات',
                 'sub_menu' => [
                     'orders' => [
                         'icon' => 'Database',
@@ -68,6 +69,7 @@ class SimpleMenu
             'menu-layout' => [
                 'icon' => 'box',
                 'title' => 'Menu Layout',
+                'can'=>'menu',
                 'sub_menu' => [
                     'side-menu' => [
                         'icon' => 'activity',

@@ -6,6 +6,9 @@
 @endsection
 
 @section('subcontent')
+@can('اضافة مستخدم')
+
+
 <style>
  .typeC{
     display:none;
@@ -17,8 +20,17 @@
         {{ session('success') }}
     </div>
 @endif
-   <div class="mt-50" style="padding:30px;">
 
+<div class="main-content-label mg-b-5">
+                    <div class="pull-right" style="margin:20px">
+                           <a class="" href="{{ route('users.index') }}">  <x-base.button
+                                class="mt-10 w-full px-4 py-3 align-top xl:mt-0 xl:w-32 btn"
+                                variant="primary" >
+                           رجوع
+                            </x-base.button> </a>
+                    </div>
+                </div>
+   <div class="mt-50" style="padding:30px;">
      <form  action="{{route('users.store','test')}}" method="post">
                     {{csrf_field()}}
 
@@ -124,7 +136,7 @@
 
                 </div>
 
-                    <x-base.button class="px-4 py-3 align-center m-5 h-2"  variant="primary" type="submit" >  حفظ  </x-base.button>
+                    <x-base.button class="px-10 py-3 align-center m-5 h-30"  variant="primary" type="submit" >  حفظ  </x-base.button>
 
 
             </x-base.preview-component>
@@ -153,6 +165,8 @@ $('#target').on('change', function (e) {
 
 });
 </script>
+
+@endcan
 @endsection
 
 

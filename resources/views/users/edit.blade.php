@@ -1,128 +1,181 @@
-@extends('layouts.master')
-@section('css')
-<!-- Internal Nice-select css  -->
-<link href="{{URL::asset('assets/plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet" />
-@section('title')
-تعديل مستخدم - مورا سوفت للادارة القانونية
-@stop
 
-
+@extends('../layouts/' . $layout)
+@section('subhead')
+<title>Dashboard - Midone - Tailwind HTML Admin Template</title>
 @endsection
-@section('page-header')
-<!-- breadcrumb -->
-<div class="breadcrumb-header justify-content-between">
-    <div class="my-auto">
-        <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ تعديل
-                مستخدم</span>
-        </div>
-    </div>
+
+@section('subcontent')
+@can('تعديل مستخدم')
+<style>
+  .typeC {
+    display: none;
+  }
+</style>
+
+@if (session('success'))
+<x-base.alert class="m-5" variant="success">
+  {{ session('success') }}
+</x-base.alert>
+@endif
+@if (session('error'))
+<x-base.alert class="m-5" variant="error">
+  {{ session('error') }}
+</x-base.alert>
+@endif
+
+
+<div class="mt-50" style="padding: 30px">
+  {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+
+    <x-base.preview-component class="intro-y box">
+      <div
+        class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row"
+      >
+        <h2 class="mr-auto text-base font-medium">تعديل مستخدم</h2>
+      </div>
+      <div class="p-5">
+        <x-base.preview>
+          <div>
+            <x-base.form-label for="regular-form-1">
+              اسم المستخدم</x-base.form-label
+            >
+            <x-base.form-input
+              id="regular-form-1"
+              type="text"
+              name="name"
+              required
+              value="{{ $user->name }}"
+              placeholder="Input text"
+            />
+            @error('name')
+            <span class="invalid-feedback" role="alert">
+              <p style="color: red; margin-left: 20px; font-size: 15px">
+                {{ $message }}
+              </p>
+            </span>
+            @enderror
+          </div>
+          <div class="mt-3">
+            <x-base.form-label for="regular-form-2"
+              >البريد الاكتروني</x-base.form-label
+            >
+            <x-base.form-input
+              id="regular-form-2"
+              type="email"
+              required
+              name="email"
+              value="{{ $user->email }}"
+              placeholder="email"
+            />
+
+            @error('email')
+            <span class="invalid-feedback" role="alert">
+              <p style="color: red; margin-left: 20px; font-size: 15px">
+                {{ $message }}
+              </p>
+            </span>
+            @enderror
+          </div>
+          <div class="mt-3">
+            <x-base.form-label for="regular-form-3"> الهاتف</x-base.form-label>
+            <x-base.form-input
+              id="regular-form-3"
+              type="text"
+              name="mobile_no"
+              value="{{ $user->mobile_no }}"
+              required
+              placeholder="With help"
+            />
+            @error('mobile_no')
+            <span class="invalid-feedback" role="alert">
+              <p style="color: red; margin-left: 20px; font-size: 15px">
+                {{ $message }}
+              </p>
+            </span>
+            @enderror
+          </div>
+          <div class="mt-3">
+            <x-base.form-select
+              class="sm:mt-2 sm:mr-2"
+              formSelectSize="lg"
+              id="target"
+              name="roles_name[]"
+              required
+              aria-label=".form-select-lg example"
+            >
+              <option value="">اختر صلاحيه</option>
+              @foreach ($roles as $role)
+
+              <option value="{{ $role }}">{{ $role }}</option>
+              @endforeach
+            </x-base.form-select>
+             @error('roles_name')
+            <span class="invalid-feedback" role="alert">
+              <p style="color: red; margin-left: 20px; font-size: 15px">
+                {{ $message }}
+              </p>
+            </span>
+            @enderror
+          </div>
+
+          <div class="mt-3">
+            <x-base.form-select
+              class="sm:mt-2 sm:mr-2 typeC"
+              formSelectSize="lg"
+              name="type"
+              aria-label=".form-select-lg example" >
+              <option value="">choose type</option>
+            @if($user->type == 'مؤسسة')
+              <option selected value="مؤسسة">مؤسسة</option>
+            @else
+             <option  value="مؤسسة">مؤسسة</option>
+            @endif
+            @if($user->type == 'فرد')
+              <option selected value="فرد">فرد</option>
+            @else
+             <option  value="فرد">فرد</option>
+            @endif
+            @if($user->type == 'شركة')
+              <option selected value="شركة">شركة</option>
+            @else
+             <option value="شركة">شركة</option>
+            @endif
+
+            </x-base.form-select>
+            @error('type')
+            <span class="invalid-feedback" role="alert">
+              <p style="color: red; margin-left: 20px; font-size: 15px">
+                {{ $message }}
+              </p>
+            </span>
+            @enderror
+          </div>
+        </x-base.preview>
+      </div>
+
+      <x-base.button
+        class="px-4 py-3 align-center m-5 h-2"
+        variant="primary"
+        type="submit"
+      >
+        حفظ
+      </x-base.button>
+    </x-base.preview-component>
+  </form>
 </div>
-<!-- breadcrumb -->
-@endsection
-@section('content')
-<!-- row -->
-<div class="row">
-    <div class="col-lg-12 col-md-12">
 
-        @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <strong>خطا</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        <div class="card">
-            <div class="card-body">
-                <div class="col-lg-12 margin-tb">
-                    <div class="pull-right">
-                        <a class="btn btn-primary btn-sm" href="{{ route('users.index') }}">رجوع</a>
-                    </div>
-                </div><br>
-
-                {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
-                <div class="">
-
-                    <div class="row mg-b-20">
-                        <div class="parsley-input col-md-6" id="fnWrapper">
-                            <label>اسم المستخدم: <span class="tx-danger">*</span></label>
-                            {!! Form::text('name', null, array('class' => 'form-control','required')) !!}
-                        </div>
-
-                        <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                            <label>البريد الالكتروني: <span class="tx-danger">*</span></label>
-                            {!! Form::text('email', null, array('class' => 'form-control','required')) !!}
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row mg-b-20">
-                    <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                        <label>كلمة المرور: <span class="tx-danger">*</span></label>
-                        {!! Form::password('password', array('class' => 'form-control','required')) !!}
-                    </div>
-
-                    <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                        <label> تاكيد كلمة المرور: <span class="tx-danger">*</span></label>
-                        {!! Form::password('confirm-password', array('class' => 'form-control','required')) !!}
-                    </div>
-                </div>
-
-                <div class="row row-sm mg-b-20">
-                    <div class="col-lg-6">
-                        <label class="form-label">حالة المستخدم</label>
-                        <select name="Status" id="select-beast" class="form-control  nice-select  custom-select">
-                            <option value="{{ $user->Status}}">{{ $user->Status}}</option>
-                            <option value="مفعل">مفعل</option>
-                            <option value="غير مفعل">غير مفعل</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mg-b-20">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>نوع المستخدم</strong>
-                            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple'))
-                            !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="mg-t-30">
-                    <button class="btn btn-main-primary pd-x-20" type="submit">تحديث</button>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-</div>
-<!-- row closed -->
-</div>
-<!-- Container closed -->
-</div>
-<!-- main-content closed -->
-@endsection
-@section('js')
-
-<!-- Internal Nice-select js-->
-<script src="{{URL::asset('assets/plugins/jquery-nice-select/js/jquery.nice-select.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/jquery-nice-select/js/nice-select.js')}}"></script>
-
-<!--Internal  Parsley.min js -->
-<script src="{{URL::asset('assets/plugins/parsleyjs/parsley.min.js')}}"></script>
-<!-- Internal Form-validation js -->
-<script src="{{URL::asset('assets/js/form-validation.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  $("#target").on("change", function (e) {
+    var valueSelected = this.value;
+    if (valueSelected == "مستخدم") {
+      $(".typeC").css("display", "inline-block");
+      $(".typeC").attr("required", true);
+    } else {
+      $(".typeC").css("display", "none");
+      $(".typeC").removeAttr("required");
+    }
+  });
+</script>
+@endcan
 @endsection

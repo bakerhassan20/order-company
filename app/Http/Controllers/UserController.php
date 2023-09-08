@@ -102,19 +102,26 @@ public function update(Request $request, $id)
     $this->validate($request, [
     'name' => 'required',
     'email' => 'required|email|unique:users,email,'.$id,
-    'password' => 'same:confirm-password',
-    'roles' => 'required'
+    'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no,'.$id,
+    'roles_name' => 'required'
     ]);
-    $input = $request->all();
-    if(!empty($input['password'])){
-    $input['password'] = Hash::make($input['password']);
-    }else{
-    $input = array_except($input,array('password'));
+
+    if($request->type == null){
+
+        $request->type ='none';
     }
     $user = User::find($id);
-    $user->update($input);
+     $user->update([
+        'name' => $request->name,
+        'email' =>  $request->email,
+        'roles_name'=> $request->roles_name,
+        'mobile_no' => $request->mobile_no,
+        'mobile_verified_at'=> Carbon::now(),
+        'type'=>$request->type
+    ]);
+ 
     DB::table('model_has_roles')->where('model_id',$id)->delete();
-    $user->assignRole($request->input('roles'));
+    $user->assignRole($request->input('roles_name'));
     return redirect()->route('users.index')
     ->with('success','User updated successfully');
 }

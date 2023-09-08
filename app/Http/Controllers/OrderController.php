@@ -18,14 +18,16 @@ class OrderController extends Controller
 
         foreach(Auth::user()->getRoleNames() as $v){
             if($v == 'مستخدم'){
-               $orders= Order::with('user')->where('user_id',Auth::user()->id)->get();
-            }elseif('مدير'){
-                $orders= Order::with('user')->get();
+
+               $orders= Order::with('user')->where('user_id',Auth::user()->id)->paginate(5);
+            }elseif($v == 'مدير'){
+
+                $orders= Order::with('user')->paginate(5);
             }else{
                 $orders= Order::with('user')->where(function ($query)  {
                     $query->where('recipient', '=', Auth::user()->id)
-                          ->orWhere('recipient',null);
-                })->get();
+                          ->orWhere('publish',1);
+                })->paginate(5);
             }
             return view('orders.index',compact('orders'));
             }
@@ -54,14 +56,13 @@ class OrderController extends Controller
          if(auth()->user()->type != 'none'){
             $request->user_id = auth()->user()->id;
          }
-         $user= find($request->user_id);
+         $user= user::find($request->user_id);
          $order = Order::create([
             'user_id' => $request->user_id,
             'service_type' =>  $request->service_type,
             'service_description'=> $request->service_description,
-            'service_status' =>'new',
-            'invoice_status'=> 'unpaid',
-
+            'service_status' =>'طلب جديد',
+            'invoice_status'=> 'غير مدفوعه',
             'user_name' => $user->name,
             'user_email' =>  $user->email,
             'user_mobile_no'=> $user->mobile_no,
@@ -117,14 +118,14 @@ class OrderController extends Controller
 
         foreach(Auth::user()->getRoleNames() as $v){
             if($v == 'مستخدم'){
-               $orders= Order::with('user')->where('user_id',Auth::user()->id)->where($request->field,$request->type,$request->value)->get();
-            }elseif('مدير'){
-                $orders= Order::with('user')->where($request->field,$request->type,$request->value)->get();
+               $orders= Order::with('user')->where('user_id',Auth::user()->id)->where($request->field,$request->type,$request->value)->paginate(5);
+            }elseif($v =='مدير'){
+                $orders= Order::with('user')->where($request->field,$request->type,$request->value)->paginate(5);
             }else{
                 $orders= Order::with('user')->where(function ($query)  {
                     $query->where('recipient', '=', Auth::user()->id)
-                          ->orWhere('recipient',null);
-                })->where($request->field,$request->type,$request->value)->get();
+                          ->orWhere('publish',1);
+                })->where($request->field,$request->type,$request->value)>paginate(5);
             }
             return view('orders.index',compact('orders'));
             }
@@ -166,9 +167,9 @@ class OrderController extends Controller
         }
 
         $order->service_status= $request->service_status;
-        if($request->service_status == "underway"){
+        if($request->service_status == "قيد التنفيذ"){
             $order->service_start_date= Carbon::now();
-        }if($request->service_status == "finished"){
+        }if($request->service_status == "منتهية"){
             $order->service_end_date= Carbon::now();
         }
         if($order->save()){
@@ -211,7 +212,11 @@ class OrderController extends Controller
             return redirect()->back()->with('error','هذه الطلب غير موجود');
         }
 
+        $user = User::find($request->recipient);
         $order->recipient = $request->recipient;
+        $order->recipient_name = $user->name;
+        $order->publish = 2;
+
         if($order->save()){
             return redirect()->back()->with('success','تم تعديل الطلب بنجاح');
         }
@@ -231,9 +236,8 @@ class OrderController extends Controller
         if(!$order){
             return redirect()->back()->with('error','هذه الطلب غير موجود');
         }
-        $user = User::find($request->recipient_price);
+
         $order->recipient_price = $request->recipient_price;
-        $order->recipient_name = $user->name;
 
         if($order->save()){
             return redirect()->back()->with('success','تم تعديل الطلب بنجاح');
@@ -255,8 +259,10 @@ class OrderController extends Controller
             return redirect()->back()->with('error','هذه الطلب غير موجود');
         }
 
-        $order->recipient_price = Auth::user()->id;
+        $order->recipient = Auth::user()->id;
         $order->recipient_name = Auth::user()->name;
+        $order->publish = 2;
+
         if($order->save()){
             return redirect()->back()->with('success','تم استلام الطلب بنجاح');
         }
@@ -290,7 +296,6 @@ class OrderController extends Controller
 
         $request->validate([
             'order_id'=>'required',
-
         ]);
 
         $order = Order::find($request->order_id);

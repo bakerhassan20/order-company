@@ -3,13 +3,11 @@
 
 @section('subhead')
     <title>Dashboard - Midone - Tailwind HTML Admin Template</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 @endsection
 
 @section('subcontent')
+@can('عرض صلاحية')
 
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -31,25 +29,39 @@
     <div class="col-md-12">
         <div class="card mg-b-20">
             <div class="card-body">
-                <div class="main-content-label mg-b-5">
-                    <div class="pull-right">
-                        <a class="btn btn-primary btn-sm" href="{{ route('roles.index') }}">رجوع</a>
+               <div class="main-content-label mg-b-5">
+                    <div class="pull-right" style="margin:20px">
+                           <a class="" href="{{ route('roles.index') }}">  <x-base.button
+                                class="mt-10 w-full px-4 py-3 align-top xl:mt-0 xl:w-32 btn"
+                                variant="primary" >
+                           رجوع
+                            </x-base.button> </a>
                     </div>
                 </div>
                 <div class="row">
                     <!-- col -->
-                    <div class="col-lg-4" style="padding: 47px;">
-
-                            <x-base.form-label href="#">{{ $role->name }}</x-base.form-label>
-                                <ul class=""style="margin-left: 55px;list-style:circle">
+                    <div class="col-lg" style="padding: 47px;">
+                                <x-base.button
+                                style="margin-bottom:30px;
+                                min-width:100px;
+                                min-height:53px;
+                                font-size:30px;"
+                                class="mt-5" >{{ $role->name }}</x-base.button>
+                            <x-base.form-label style="font-size:20px;"  href="#"></x-base.form-label>
+                                <ul class=""style="margin-left:5px;list-style:none;text-align: center;">
                                     @if(!empty($rolePermissions))
+                                     <div class="mt-5 grid grid-cols-12 gap-6">
                                     @foreach($rolePermissions as $v)
-                                    <li  class="mb-2">{{ $v->name }}</li>
+                                       <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
+                                        <div class="box">
+                                        <div class="p-5">
+                                          <li style="font-size:20px;" class="mb-2">{{ $v->name }}</li>
+
+                                    </div></div></div>
                                     @endforeach
+                                      </div>
                                     @endif
                                 </ul>
-
-
                     </div>
                     <!-- /col -->
                 </div>
@@ -62,6 +74,7 @@
 
 
 </script>
+@endcan
 @endsection
 
 

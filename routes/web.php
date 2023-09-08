@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth','verified-mobile']], function() {
     Route::post('/orderFilter', [App\Http\Controllers\OrderController::class, 'orderFilter'])->name('orderFilter');
     Route::post('/roleFilter', [App\Http\Controllers\RoleController::class, 'roleFilter'])->name('roleFilter');
     Route::post('/userFilter', [App\Http\Controllers\UserController::class, 'userFilter'])->name('userFilter');
+    Route::get('/userFilter', [App\Http\Controllers\UserController::class, 'index']);
 
 
 

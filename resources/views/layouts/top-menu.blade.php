@@ -13,7 +13,7 @@
         <!-- BEGIN: Top Menu -->
         <nav @class([
             'top-nav relative z-50 hidden pt-32 -mt-4 md:block',
-        
+
             // Animation
             'opacity-0 animate-[0.4s_ease-in-out_0.2s_intro-top-menu] animate-fill-mode-forwards',
         ])>
@@ -26,7 +26,7 @@
                                 $firstLevelActiveIndex == $menuKey
                                     ? 'top-menu top-menu--active'
                                     : 'top-menu',
-                            
+
                                 // Animation
                                 '[&:not(.top-menu--active)]:opacity-0 [&:not(.top-menu--active)]:translate-y-[50px] animate-[0.4s_ease-in-out_0.3s_intro-top-menu] animate-fill-mode-forwards animate-delay-' .
                                 (array_search($menuKey, array_keys($topMenu)) + 1) * 10,
@@ -48,6 +48,7 @@
                         @if (isset($menu['sub_menu']))
                             <ul class="{{ $firstLevelActiveIndex == $menuKey ? 'top-menu__sub-open' : '' }}">
                                 @foreach ($menu['sub_menu'] as $subMenuKey => $subMenu)
+                                  @can($subMenu['can'])
                                     <li>
                                         <a
                                             class="top-menu"
@@ -85,6 +86,7 @@
                                             </ul>
                                         @endif
                                     </li>
+                                       @endcan
                                 @endforeach
                             </ul>
                         @endif

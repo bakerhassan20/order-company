@@ -6,6 +6,46 @@
 @section('subhead')
     <title>Dashboard - Midone - Tailwind HTML Admin Template</title>
 <style>
+
+.pagination {
+  position: absolute;
+   top: -4%;
+  left: 78%;
+  margin: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 40px;
+  box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.5);
+}
+.pagination li {
+  display: inline-block;
+  list-style: none;
+}
+.pagination li a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #fff;
+  text-align: center;
+  text-decoration: none;
+  color: #252525;
+  border-radius: 4px;
+  margin: 5px;
+  box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+.pagination li a:hover, .pagination li a.active {
+  color: #fff;
+  background-color: #ff4242;
+}
+.pagination li:first-child a {
+  border-radius: 40px 0 0 40px;
+}
+.pagination li:last-child a {
+  border-radius: 0 40px 40px 0;
+}
+
 .table td {
 text-align: center !important;
 }
@@ -24,6 +64,8 @@ table{
 @endsection
 
 @section('subcontent')
+@can('الصلاحيات')
+
 
 @if (session('success'))
     <x-base.alert class="m-5 "  variant="success" >
@@ -38,13 +80,16 @@ table{
             <x-base.preview-component class="intro-y box mt-5">
                 <div class="flex flex-col items-center border-b border-slate-200/60 p-5 sm:flex-row">
                     <h2 class="mr-auto text-base font-medium">
-                        Bordered Table
+                       الصلاحيات
                     </h2>
+                      @can('اضافة صلاحية')
+                      <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">
                         <x-base.button href="{{ route('register') }}"
                                 class="mt-3 w-full px-4 py-3 align-top xl:mt-0 xl:w-32 btn"
                                 variant="primary">
-                               <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">اضافة صلاحيه</a>
-                            </x-base.button>
+                             اضافة صلاحيه
+                            </x-base.button> </a>
+                        @endcan
 
 
                 </div>
@@ -163,14 +208,14 @@ table{
                         @endcan
                         @if ($role->name !== 'مدير' && $role->name !== 'مستخدم')
                         @can('حذف صلاحية')
-                        <a class="flex  delete text-danger" href="{{ route('roles.destroy',
-                                                $role->id) }}"
+                        <a class="flex  delete text-danger" href=""
                                     onclick="event.preventDefault();document.getElementById('deleterole-form').submit();">
                          <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
                         </a>
                     <form id="deleterole-form"style="display:inline" action="{{ route('roles.destroy',
-                                                $role->id) }}" method="DELETE" style="display: none;">
-                    @csrf
+                                                $role->id) }}" method="post" style="display: none;">
+                       {!! method_field('delete') !!}
+                       {!! csrf_field() !!}
                     </form>
                         @endcan
                          @endif
@@ -180,6 +225,10 @@ table{
                                 @endforeach
                                 </x-base.table.tbody>
                             </x-base.table>
+
+                       <div class="container"style="">
+                            {!! $roles->links() !!}
+                        </div>
                         </div>
                     </x-base.preview>
 
@@ -191,8 +240,7 @@ table{
             <!-- END: Bordered Table -->
 
 
-<h1> {!! $roles->links() !!}</h1>
+@endcan
 @endsection
-
 
 

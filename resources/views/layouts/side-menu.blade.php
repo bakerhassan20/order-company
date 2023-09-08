@@ -55,7 +55,7 @@
                                 @if (isset($menu['sub_menu']))
                                     <ul class="{{ $firstLevelActiveIndex == $menuKey ? 'side-menu__sub-open' : '' }}">
                                         @foreach ($menu['sub_menu'] as $subMenuKey => $subMenu)
-                                      {{--   @can($subMenu['can']) --}}
+                                       @can($subMenu['can'])
                                             <li>
                                                 <a
                                                     href="{{ isset($subMenu['route_name']) ? route($subMenu['route_name'], $subMenu['params']) : 'javascript:;' }}"
@@ -111,7 +111,7 @@
                                                     </ul>
                                                 @endif
                                             </li>
-                                    {{--         @endcan --}}
+                                         @endcan
                                         @endforeach
                                     </ul>
                                 @endif

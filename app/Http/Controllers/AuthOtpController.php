@@ -15,7 +15,7 @@ class AuthOtpController extends Controller
     public function send_verifiy_phone(){
 
         if(auth()->user()->mobile_verified_at != null){
-            return redirect()->route('dashboard-overview-1');
+            return redirect()->route('orders.index');
         }
 
         # Generate An OTP
@@ -59,7 +59,7 @@ class AuthOtpController extends Controller
                 'mobile_verified_at' => Carbon::now()
             ]);
 
-            return redirect()->route('dashboard-overview-1');
+            return redirect()->route('orders.index');
         }
 
         return redirect()->route('login')->with('error', 'Your Otp is not correct');
@@ -151,7 +151,7 @@ class AuthOtpController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('dashboard-overview-1');
+            return redirect()->route('orders.index');
         }
 
         return redirect()->route('login')->with('error', 'Your Otp is not correct');
